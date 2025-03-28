@@ -8,7 +8,7 @@ export interface IUser extends Document {
     otp?: string;
     otpExpires?: Date;
     googleId?: string;
-    token?: string;  // New field to store the latest JWT token
+    token?: string;  // Store the latest JWT token
     comparePassword(candidatePassword: string): Promise<boolean>;
 }
 
@@ -19,13 +19,13 @@ const UserSchema = new Schema<IUser>(
         password: { type: String },
         otp: { type: String },
         otpExpires: { type: Date },
-        googleId: { type: String },
-        token: { type: String }  // Store the latest token
+        googleId: { type: String, unique: true, sparse: true }, // ✅ Google ID field
+        token: { type: String }  // ✅ Store latest JWT token
     },
     { timestamps: true }
 );
 
-// Hash password before saving
+// ✅ Hash password before saving (Only if password exists)
 UserSchema.pre("save", async function (next) {
     if (this.password && this.isModified("password")) {
         const salt = await bcrypt.genSalt(10);
@@ -34,7 +34,7 @@ UserSchema.pre("save", async function (next) {
     next();
 });
 
-// Method to compare passwords
+// ✅ Method to compare passwords
 UserSchema.methods.comparePassword = async function (candidatePassword: string) {
     if (!this.password) return false;
     return bcrypt.compare(candidatePassword, this.password);

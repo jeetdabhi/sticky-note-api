@@ -24,6 +24,7 @@ class NoteRouter {
 
     this.router.put(
       "/update/:id",
+      notesMiddleware, // ✅ Added authentication middleware for security
       async (req: Request, res: Response, next: NextFunction) => {
         try {
           await NoteController.updateNote(req, res);
@@ -35,6 +36,7 @@ class NoteRouter {
 
     this.router.get(
       "/get/:id",
+      notesMiddleware, // ✅ Added authentication middleware
       async (req: Request, res: Response, next: NextFunction) => {
         try {
           await NoteController.getNote(req, res);
@@ -46,10 +48,10 @@ class NoteRouter {
 
     this.router.get(
       "/all",
-      notesMiddleware,
+      notesMiddleware, // Ensure only authenticated users can see notes
       async (req: Request, res: Response, next: NextFunction) => {
         try {
-          await NoteController.getAllNotes(req as AuthRequest, res); // ✅ Cast req as AuthRequest to access req.user
+          await NoteController.getAllNotes(req as AuthRequest, res); // ✅ Cast req as AuthRequest
         } catch (error) {
           next(error);
         }
@@ -58,6 +60,7 @@ class NoteRouter {
 
     this.router.delete(
       "/delete/:id",
+      notesMiddleware, // ✅ Ensure authentication before deleting a note
       async (req: Request, res: Response, next: NextFunction) => {
         try {
           await NoteController.deleteNote(req, res);

@@ -3,6 +3,7 @@ import Otp from "../models/Otp";
 import nodemailer from "nodemailer";
 import { getEnvironmentVariables } from "../environments/environment";
 import * as Bcrypt from "bcrypt";
+import { Request, Response, NextFunction } from "express";
 
 const env = getEnvironmentVariables();
 
@@ -44,3 +45,10 @@ export const sendOtpEmail = async (email: string, otp: string) => {
     text: `Your OTP is ${otp}. It will expire in 5 minutes.`,
   });
 };
+
+
+export const asyncHandler =
+  (fn: (req: Request, res: Response, next: NextFunction) => Promise<any>) =>
+  (req: Request, res: Response, next: NextFunction) => {
+    Promise.resolve(fn(req, res, next)).catch(next);
+  };
