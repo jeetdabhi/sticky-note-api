@@ -46,7 +46,7 @@ export const sendOtpEmail = async (email: string, otp: string) => {
   });
 };
 
-
+// ✅ Async Handler Utility
 export const asyncHandler =
   (fn: (req: Request, res: Response, next: NextFunction) => Promise<any>) =>
   (req: Request, res: Response, next: NextFunction) => {

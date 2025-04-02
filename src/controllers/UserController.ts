@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { Request, Response, NextFunction} from "express";
 import { validationResult } from "express-validator";
 import { Utils } from "../utils/Utils";
 import { BlacklistedToken, User } from "../models/User";

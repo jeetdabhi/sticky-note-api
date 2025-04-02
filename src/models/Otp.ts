@@ -1,12 +1,12 @@
 import mongoose, { Document, Schema } from "mongoose";
 
-export interface IOtp extends Document {
+export interface Otp extends Document {
   email: string;
   otp: string;
   expiresAt: Date;
 }
 
-const OtpSchema = new Schema<IOtp>(
+const OtpSchema = new Schema<Otp>(
   {
     email: { type: String, required: true, unique: true },
     otp: { type: String, required: true },
@@ -18,4 +18,4 @@ const OtpSchema = new Schema<IOtp>(
 // Ensure OTPs are automatically deleted after expiry
 OtpSchema.index({ expiresAt: 1 }, { expireAfterSeconds: 0 });
 
-export default mongoose.model<IOtp>("Otp", OtpSchema);
+export default mongoose.model<Otp>("Otp", OtpSchema);

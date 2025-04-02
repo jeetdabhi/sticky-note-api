@@ -14,15 +14,9 @@
         "dom"
       ]
     },
-    "files": [
-      "./node_modules/@types/node/index.d.ts"
-    ],
     "include": [
       "src/**/*.ts",
-      "package.json"
+      "__tests__/**/*.ts"
     ],
-    "exclude": [
-      "node_modules"
-    ]
-  }
-  
+    "types": ["jest", "node"]
+}

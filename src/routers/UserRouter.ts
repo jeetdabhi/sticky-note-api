@@ -3,7 +3,7 @@ import { UserController } from "../controllers/UserController";
 import { UserValidators } from "../validators/UserValidators";
 import { authMiddleware } from "../middlewares/authMiddleware";
 import rateLimit from "express-rate-limit";
-import { asyncHandler } from "../utils/otpUtils";
+import { asyncHandler } from "../utils/otpUtils";  // Correct path
 
 class UserRouter {
   public router: Router;
@@ -28,7 +28,6 @@ class UserRouter {
 
   postRoutes() {
     this.router.post("/register", asyncHandler(UserController.register));
-
     this.router.post("/verify-otp", asyncHandler(UserController.verifyOTP));
 
     this.router.post(
