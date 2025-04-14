@@ -23,9 +23,12 @@ export class NoteController {
 
       // Create new note
       const newNote = new Note({ title, content, userId, date });
-      await newNote.save();
+      const savedNote = await newNote.save();
 
-      return res.status(201).json({ message: "Note created successfully", note: newNote });
+      return res.status(201).json({ 
+          message: "Note created successfully", 
+          note: savedNote.toObject() 
+      });
     } catch (error) {
       console.error("Error creating note:", error);
       return res.status(500).json({ error: "Internal server error" });
@@ -60,7 +63,7 @@ export class NoteController {
   static async getAllNotes(req: AuthRequest, res: Response) {
     try {
       if (!req.user) {
-        return res.status(401).json({ error: "Unauthorized - User not found" });
+        return res.status(401).json({ message: 'Unauthorized' });
       }
 
       const userId = req.user._id; // ✅ FIXED: Use _id instead of id
